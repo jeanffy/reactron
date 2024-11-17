@@ -1,0 +1,7 @@
+{
+  "ext": "ts,tsx,scss",
+  "exec": "npm start && :",
+  "ignore": ["**/dist/**/*", "**/node_modules/**/*"],
+  "verbose": true,
+  "watch": ["src"]
+}
