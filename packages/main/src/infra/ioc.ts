@@ -1,26 +1,45 @@
-import { asClass, AwilixContainer, createContainer } from 'awilix';
+import { asClass, AwilixContainer, ClassOrFunctionReturning, createContainer, Resolver } from 'awilix';
 
-import { FS_PROVIDER_TOKEN } from '../domain/ports/fs.provider.js';
-import { LOG_PROVIDER_TOKEN } from '../domain/ports/log.provider.js';
-import { ConsoleAndFileLogProvider } from './providers/console-and-file-log.provider.js';
-import { RealFsProvider } from './providers/real-fs.provider.js';
+import { DOMAIN_CONFIG_PORT_TOKEN } from '../domain/ports/domain-config.port.js';
+import { FS_PORT_TOKEN } from '../domain/ports/fs.port.js';
+import { LOG_PORT_TOKEN } from '../domain/ports/log.port.js';
+import { ConsoleAndFileLogAdapter } from './adapters/console-and-file-log.adapter.js';
+import { EnvConfigAdapter } from './adapters/env-config.adapter.js';
+import { JsonAppPreferencesAdapter } from './adapters/json-preferences.adapter.js';
+import { RealFsAdapter } from './adapters/real-fs.adapter.js';
+import { APP_PREFERENCES_PORT_TOKEN } from './ports/app-preferences.port.js';
+import { INFRA_CONFIG_PORT_TOKEN } from './ports/infra-config.port.js';
 
 export class AppIoc {
   private iocContainer = createContainer();
 
   public constructor() {
     this.iocContainer.register({
-      [FS_PROVIDER_TOKEN]: asClass(RealFsProvider).singleton(),
-      [LOG_PROVIDER_TOKEN]: asClass(ConsoleAndFileLogProvider).singleton(),
+      [FS_PORT_TOKEN]: asClass(RealFsAdapter).singleton(),
+      [LOG_PORT_TOKEN]: asClass(ConsoleAndFileLogAdapter).singleton(),
+      [DOMAIN_CONFIG_PORT_TOKEN]: asClass(EnvConfigAdapter).singleton(),
+      [INFRA_CONFIG_PORT_TOKEN]: asClass(EnvConfigAdapter).singleton(),
+      [APP_PREFERENCES_PORT_TOKEN]: asClass(JsonAppPreferencesAdapter)
+        .singleton()
+        .disposer(p => p.terminate()),
     });
+  }
+
+  public async initialize(): Promise<void> {
+    const appPreferencesPort = this.getItemFromToken(APP_PREFERENCES_PORT_TOKEN) as JsonAppPreferencesAdapter;
+    await appPreferencesPort.initialize();
   }
 
   public getContainer(): AwilixContainer {
     return this.iocContainer;
   }
 
-  public getItem<T>(token: symbol): T {
+  public getItemFromToken<T>(token: symbol): T {
     return this.iocContainer.resolve<T>(token);
+  }
+
+  public getItem<T>(targetOrResolver: ClassOrFunctionReturning<T> | Resolver<T>): T {
+    return this.iocContainer.build(targetOrResolver);
   }
 
   public async dispose(): Promise<void> {

@@ -1,0 +1,27 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "exports": {
+    "./domain": {
+      "ts-source": "./src/domain/index.ts",
+      "import": "./dist/src/domain/index.js",
+      "require": "./dist/src/domain/index.js"
+    },
+    "./infra": {
+      "ts-source": "./src/infra/index.ts",
+      "import": "./dist/src/infra/index.js",
+      "require": "./dist/src/infra/index.js"
+    }
+  },
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run --coverage",
+    "test:w": "vitest --coverage"
+  }
+}

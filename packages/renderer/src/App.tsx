@@ -1,46 +1,20 @@
-import { ProgramInfoDto } from "ipc";
-import "./App.css";
+import './App.scss';
 
-import image from "./assets/image.jpg";
-import { useEffect, useState } from "react";
-import { getApi } from './services/api';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { RouterProvider } from 'react-router-dom';
 
-function App() {
-  const [programInfo, setProgramInfo] = useState<ProgramInfoDto | undefined>(
-    undefined,
-  );
+import router from './router';
+import AppContext from './services/app-context';
+
+function App(): JSX.Element {
+  const { i18n } = useTranslation();
 
   useEffect(() => {
-    async function getProgramInfo() {
-      const programInfo = await getApi().getProgramInfo();
-      setProgramInfo(programInfo);
-    }
-    getProgramInfo();
-  });
+    void i18n.changeLanguage(AppContext.locale);
+  }, [i18n]);
 
-  return (
-    <>
-      <p>Hello Reactron! This paragraph should be rendered in yellow</p>
-      An image from the public folder
-      <br />
-      {/* the ./ prefix for the image path is mandatory to work in the Electron context */}
-      <img src="./image.jpg" width="150px" />
-      <br />
-      An image from the assets folder
-      <br />
-      <img src={image} width="150px" />
-      <br />
-      Program information retrieved from API
-      <br />
-      {programInfo && (
-        <ul>
-          <li>Node version: {programInfo.nodeVersion}</li>
-          <li>Electron version: {programInfo.electronVersion}</li>
-          <li>Chrome version: {programInfo.chromeVersion}</li>
-        </ul>
-      )}
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

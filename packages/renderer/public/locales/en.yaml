@@ -1,0 +1,15 @@
+components:
+  assets:
+    assetsFolder: An image from the assets folder
+    publicFolder: An image from the public folder
+  programInfo:
+    title: Program information retrieved from API
+    nodeVersion: "Node version: "
+    electronVersion: "Electron version: "
+    chromeVersion: "Chrome version: "
+
+views:
+  home:
+    greeting: |
+      Hello Reactron!<br/>
+      This paragraph displays on multiple lines

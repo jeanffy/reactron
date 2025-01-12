@@ -1,6 +1,9 @@
 .vscode/*
 !.vscode/extensions.json
 !.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+.env
 .idea
 .nx
 dist

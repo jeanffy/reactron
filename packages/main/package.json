@@ -6,12 +6,18 @@
   "author": "",
   "license": "ISC",
   "type": "module",
+  "nx": {
+    "implicitDependencies": [
+      "preload",
+      "renderer"
+    ]
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run --coverage",
     "test:w": "vitest --coverage"
   },
   "dependencies": {
-    "ipc": "workspace:*"
+    "shared": "workspace:*"
   }
 }

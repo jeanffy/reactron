@@ -2,21 +2,18 @@
   "name": "reactron",
   "version": "1.0.0",
   "keywords": [],
-  "author": "",
+  "author": "jeanffy",
   "license": "ISC",
   "description": "A React + Electron template",
   "type": "module",
   "main": "packages/main/dist/src/main.js",
   "nx": {
     "implicitDependencies": [
-      "ipc",
-      "main",
-      "preload",
-      "renderer"
+      "main"
     ]
   },
   "scripts": {
-    "build": "nx run-many --target=build --all --exclude=reactron",
+    "build": "nx build main",
     "lint": "concurrently 'npm:lint:*(!:fix)'",
     "lint:fix": "concurrently npm:lint:*:fix",
     "lint:circular": "madge -c --ts-config tsconfig.json --extensions ts packages",
@@ -26,14 +23,15 @@
     "lint:syntax": "eslint --max-warnings 0 .",
     "lint:syntax:fix": "npm run lint:syntax -- --fix",
     "package": "electron-builder --config build/electron-builder.ts --mac --win --linux",
-    "start": "ELECTRON_DISABLE_SECURITY_WARNINGS=true DEBUG_LOG=1 electron --enable-logging .",
+    "start": "cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true DEBUG_LOG=1 electron --enable-logging .",
     "start:w": "nodemon",
     "test": "nx run-many --target=test --all --exclude=reactron"
   },
   "dependencies": {
     "awilix": "12.0.3",
     "dotenv": "16.4.5",
-    "electron-log": "5.2.2"
+    "electron-log": "5.2.2",
+    "yaml": "2.6.1"
   },
   "devDependencies": {
     "@commitlint/cli": "19.5.0",
@@ -49,6 +47,7 @@
     "@vitest/coverage-v8": "2.1.4",
     "@vitest/ui": "2.1.4",
     "concurrently": "9.1.0",
+    "cross-env": "7.0.3",
     "cspell": "8.16.0",
     "electron": "33.2.0",
     "electron-builder": "25.1.8",
@@ -58,6 +57,7 @@
     "eslint-plugin-react-refresh": "0.4.14",
     "eslint-plugin-simple-import-sort": "12.1.1",
     "eslint-plugin-unused-imports": "4.1.4",
+    "glob": "11.0.0",
     "globals": "15.11.0",
     "madge": "8.0.0",
     "nodemon": "3.1.7",
@@ -68,6 +68,7 @@
     "rollup": "4.27.1",
     "typescript": "5.6.3",
     "typescript-eslint": "8.14.0",
+    "uglify-js": "3.19.3",
     "vite": "5.4.10",
     "vitest": "2.1.4"
   }

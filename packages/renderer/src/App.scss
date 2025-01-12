@@ -1,0 +1,6 @@
+@use '../styles/vars';
+
+body {
+  background-color: vars.$bgColor;
+  color: vars.$textColorPrimary;
+}

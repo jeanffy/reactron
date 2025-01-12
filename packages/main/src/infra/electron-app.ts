@@ -2,44 +2,37 @@ import path from 'node:path';
 
 import { BrowserWindow } from 'electron';
 
-import {
-  LOG_PROVIDER_TOKEN,
-  LogProvider,
-} from '../domain/ports/log.provider.js';
+import { LOG_PORT_TOKEN, LogPort } from '../domain/ports/log.port.js';
 import { InjectedDependencies } from '../types.js';
 import { initializeApiController } from './api-controller.js';
 import { AppIoc } from './ioc.js';
+import { APP_PREFERENCES_PORT_TOKEN, AppPreferencesPort } from './ports/app-preferences.port.js';
+import { INFRA_CONFIG_PORT_TOKEN, InfraConfigPort } from './ports/infra-config.port.js';
 
 export class ElectronApp {
-  private logProvider: LogProvider;
+  private logPort: LogPort;
+  private configPort: InfraConfigPort;
+  private appPreferencesPort: AppPreferencesPort;
 
   private ioc?: AppIoc;
   private win?: BrowserWindow;
 
   public constructor(dependencies: InjectedDependencies) {
-    this.logProvider = dependencies[LOG_PROVIDER_TOKEN];
+    this.logPort = dependencies[LOG_PORT_TOKEN];
+    this.configPort = dependencies[INFRA_CONFIG_PORT_TOKEN];
+    this.appPreferencesPort = dependencies[APP_PREFERENCES_PORT_TOKEN];
   }
 
   public async init(app: Electron.App, ioc: AppIoc): Promise<void> {
     this.ioc = ioc;
 
-    const preloadPath = path.join(
-      app.getAppPath(),
-      'packages',
-      'preload',
-      'dist',
-      'preload.bundle.js',
-    );
-    const rendererPath = path.join(
-      app.getAppPath(),
-      'packages',
-      'renderer',
-      'dist',
-      'index.html',
-    );
+    await this.ioc.initialize();
+
+    const preloadPath = path.join(app.getAppPath(), 'packages', 'preload', 'dist', 'preload.bundle.js');
+    const rendererPath = path.join(app.getAppPath(), 'packages', 'renderer', 'dist', 'index.html');
 
     await app.whenReady();
-    initializeApiController(this.ioc);
+    initializeApiController(app, this.ioc);
     await this.createWindow(preloadPath, rendererPath);
 
     app.on('activate', (): void => {
@@ -55,7 +48,7 @@ export class ElectronApp {
     });
 
     let quitInProgress = false;
-    app.on('before-quit', (event) => {
+    app.on('before-quit', event => {
       if (!quitInProgress) {
         event.preventDefault();
         quitInProgress = true;
@@ -63,7 +56,7 @@ export class ElectronApp {
           if (this.ioc !== undefined) {
             this.ioc
               .dispose()
-              .catch((error) => {
+              .catch(error => {
                 console.error('error', error);
               })
               .finally(() => {
@@ -76,20 +69,21 @@ export class ElectronApp {
   }
 
   private async createWindow(preloadPath: string, rendererPath: string): Promise<void> {
-    this.logProvider.info({
+    this.logPort.info({
       module: ElectronApp.name,
-      msg: `preloadPath: ${preloadPath}`,
-    });
-    this.logProvider.info({
-      module: ElectronApp.name,
-      msg: `rendererPath: ${rendererPath}`,
+      msg: 'createWindow environment',
+      payload: {
+        processCwd: process.cwd(),
+        preloadPath,
+        rendererPath,
+      },
     });
 
     this.win = new BrowserWindow({
-      // x: this.appPreferencesProvider.windowX,
-      // y: this.appPreferencesProvider.windowY,
-      // width: this.appPreferencesProvider.windowWidth,
-      // height: this.appPreferencesProvider.windowHeight,
+      x: this.appPreferencesPort.windowX,
+      y: this.appPreferencesPort.windowY,
+      width: this.appPreferencesPort.windowWidth,
+      height: this.appPreferencesPort.windowHeight,
 
       show: false,
       webPreferences: {
@@ -100,40 +94,49 @@ export class ElectronApp {
     this.win.on('moved', () => {
       const bounds = this.win?.getBounds();
       if (bounds !== undefined) {
-        // this.appPreferencesProvider.windowX = bounds.x;
-        // this.appPreferencesProvider.windowY = bounds.y;
+        this.appPreferencesPort.windowX = bounds.x;
+        this.appPreferencesPort.windowY = bounds.y;
       }
     });
 
     this.win.on('resized', () => {
       const bounds = this.win?.getBounds();
       if (bounds !== undefined) {
-        // this.appPreferencesProvider.windowWidth = bounds.width;
-        // this.appPreferencesProvider.windowHeight = bounds.height;
+        this.appPreferencesPort.windowWidth = bounds.width;
+        this.appPreferencesPort.windowHeight = bounds.height;
+        this.appPreferencesPort.windowMaximized = false;
       }
     });
 
     this.win.on('maximize', () => {
-      //this.appPreferencesProvider.windowMaximized = true;
+      this.appPreferencesPort.windowMaximized = true;
     });
 
     this.win.on('minimize', () => {
-      //this.appPreferencesProvider.windowMaximized = false;
+      this.appPreferencesPort.windowMaximized = false;
     });
 
-    this.win.webContents.on('devtools-opened', () => {
-      //this.appPreferencesProvider.devToolsOpened = true;
-    });
+    // this.win.webContents.on('devtools-opened', () => {
+    //   this.appPreferencesPort.devToolsOpened = true;
+    // });
 
-    this.win.webContents.on('devtools-closed', () => {
-      //this.appPreferencesProvider.devToolsOpened = false;
-    });
+    // this.win.webContents.on('devtools-closed', () => {
+    //   this.appPreferencesPort.devToolsOpened = false;
+    // });
 
-    await this.win.loadFile(rendererPath);
-    // if (this.appPreferencesProvider.windowMaximized) {
-    //   this.win.maximize();
-    // }
-    // if (this.appPreferencesProvider.devToolsOpened) {
+    if (process.env.DEBUG_RENDERER_URL !== undefined) {
+      await this.win.loadURL(process.env.DEBUG_RENDERER_URL);
+    } else {
+      await this.win.loadFile(rendererPath);
+    }
+
+    if (this.configPort.fullScreen) {
+      this.win.setFullScreen(true);
+    } else if (this.appPreferencesPort.windowMaximized) {
+      this.win.maximize();
+    }
+
+    // if (this.appPreferencesPort.devToolsOpened) {
     //   this.win.webContents.openDevTools({ mode: 'bottom' });
     // }
 

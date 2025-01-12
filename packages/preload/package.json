@@ -12,6 +12,6 @@
     "test:w": "vitest --coverage"
   },
   "dependencies": {
-    "ipc": "workspace:*"
+    "shared": "workspace:*"
   }
 }

@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "env": {
+        "DEBUG_RENDERER_URL": "http://localhost:5173",
+        "URLS_WITH_HTTP": "1"
+      },
+      "name": "Main process",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--remote-debugging-port=9229", "."],
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+      "windows": {
+        "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+      }
+    },
+    {
+      "name": "Renderer process",
+      "port": 9229,
+      "request": "attach",
+      "type": "chrome",
+      "webRoot": "${workspaceFolder}/packages/renderer"
+    }
+  ],
+  "compounds": [
+    {
+      "configurations": ["Main process", "Renderer process"],
+      "name": "Application",
+      "preLaunchTask": "build",
+      "presentation": {
+        "hidden": false,
+        "group": "",
+        "order": 1
+      },
+      "stopAll": true
+    }
+  ]
+}

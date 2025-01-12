@@ -1,13 +1,13 @@
-import { nodeResolve } from "@rollup/plugin-node-resolve";
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 const config = [
   {
     cache: false,
-    external: ["electron"],
-    input: "dist/src/preload.js",
+    external: ['electron'],
+    input: 'dist/src/preload.js',
     output: {
-      file: "dist/preload.bundle.js",
-      format: "cjs",
+      file: 'dist/preload.bundle.js',
+      format: 'cjs',
       sourcemap: true,
     },
     plugins: [nodeResolve()],

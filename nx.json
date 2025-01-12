@@ -8,6 +8,9 @@
       "cache": true,
       "outputs": ["{projectRoot}/dist"]
     },
+    "dev": {
+      "dependsOn": ["^build"]
+    },
     "lint": {
       "dependsOn": ["^lint"],
       "cache": true
@@ -19,13 +22,7 @@
       "dependsOn": ["^build"]
     },
     "test": {
-      "dependsOn": [
-        {
-          "target": "test",
-          "params": "forward",
-          "dependencies": true
-        }
-      ]
+      "dependsOn": ["^build"]
     }
   }
 }
