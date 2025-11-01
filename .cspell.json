@@ -1,7 +1,0 @@
-{
-  "ignorePaths": [".git", ".gitignore", ".vscode", "pnpm-lock.yaml", "**/fr.yaml"],
-  "ignoreWords": ["asar", "awilix", "commitlint", "prestart", "realpath"],
-  "language": "en",
-  "useGitignore": true,
-  "words": ["jeanffy", "reactron"]
-}

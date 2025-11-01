@@ -1,0 +1,39 @@
+tasks:
+  install:
+    command: pnpm i
+
+  clean:
+    command: rm -rf .moon/cache && rm -rf node_modules && rm -rf output
+    options: { cache: false }
+
+  lint:
+    deps:
+      - internalRootTsLintSpell
+      - internalRootTsLintFormat
+      - internalRootTsLintSyntax
+
+  lint-fix:
+    deps:
+      - internalRootTsLintFormatFix
+      - internalRootTsLintSyntaxFix
+
+  # --------------------------------------------------------------------------
+  # internal tasks
+  # --------------------------------------------------------------------------
+
+  internalRootTsLintFormat:
+    command: npx prettier --check --config etc/config/.prettierrc.json --ignore-path etc/config/.prettierignore --cache . '!apps' '!libs'
+
+  internalRootTsLintSpell:
+    command: npx cspell --dot --no-must-find-files --no-progress -c etc/config/.cspell.json -e apps -e libs .
+
+  internalRootTsLintSyntax:
+    command: eslint -c "$workspaceRoot/eslint.config.mjs" --max-warnings 0 . --ignore-pattern 'apps/' --ignore-pattern 'libs/' --ignore-pattern 'output/'
+
+  internalRootTsLintFormatFix:
+    extends: internalRootTsLintFormat
+    args: --write
+
+  internalRootTsLintSyntaxFix:
+    extends: internalRootTsLintSyntax
+    args: --fix

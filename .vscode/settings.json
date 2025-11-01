@@ -1,46 +1,34 @@
 {
-  "emmet.includeLanguages": {
-    "postcss": "css"
-  },
-  "[cjs]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[cts]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[js]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[mjs]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[mts]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[ts]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[tsx]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+  "[jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "typescript.tsdk": "./node_modules/typescript/bin"
+  "[yaml]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "eslint.debug": false,
+  // "eslint.options": {
+  //   "overrideConfigFile": "etc/config/eslint.config.mjs"
+  // },
+  "eslint.useFlatConfig": true,
+  "prettier.configPath": "etc/config/.prettierrc.json",
+  "yaml.schemas": {
+    "https://moonrepo.dev/schemas/tasks.json": [".moon/tasks.yml"],
+    //"https://moonrepo.dev/schemas/toolchain.json": [".moon/toolchain.yml"],
+    "https://moonrepo.dev/schemas/workspace.json": [".moon/workspace.yml"],
+    "https://moonrepo.dev/schemas/project.json": ["**/moon.yml"]
+  }
 }

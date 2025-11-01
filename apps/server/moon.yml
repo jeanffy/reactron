@@ -1,0 +1,32 @@
+tasks:
+  # install: # handled by PNPM
+  #   command:
+
+  build:
+    command: tsc
+    outputs: ['dist/']
+
+  clean:
+    command: rm -rf dist && rm -rf node_modules
+    options: { cache: false }
+
+  lint:
+    command: moon run \'~:tsLint\' # call script in .moon/tasks.yml
+
+  lint-fix:
+    command: moon run \'~:tsLintFix\' # call script in .moon/tasks.yml
+
+  start:
+    command: node dist/src/main.js
+
+  test:
+    command: moon run \'~:tsTest\' # call script in .moon/tasks.yml
+
+  test-w:
+    command: moon run \'~:tsTestWatch\' # call script in .moon/tasks.yml
+
+  bundle:
+    command: rollup -c
+
+  bundle2:
+    command: vite build

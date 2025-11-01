@@ -1,7 +1,0 @@
-{
-  "ext": "css,html,jpg,png,ts,tsx,scss,yaml",
-  "exec": "npm run build && npm start && :",
-  "ignore": ["**/dist/**/*", "**/node_modules/**/*"],
-  "verbose": true,
-  "watch": ["packages"]
-}
