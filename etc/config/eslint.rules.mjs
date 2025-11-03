@@ -1,8 +1,11 @@
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import typescriptEslintParser from '@typescript-eslint/parser';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unusedImports from 'eslint-plugin-unused-imports';
+import globals from 'globals';
 
 export const typescriptEslintRules = {
   '@typescript-eslint/await-thenable': 'error',
@@ -259,6 +262,35 @@ const rules = [
     rules: {
       ...esLintRules,
       ...simpleImportSortRules,
+      ...unusedImportsRules,
+    },
+  },
+  // all tsx files
+  {
+    files: ['**/*.tsx'],
+    ignores: ['**/dist/**/*', '**/node_modules/**/*', '**/output/**/*'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parser: typescriptEslintParser,
+      parserOptions: {
+        projectService: true,
+      },
+    },
+    name: 'renderer',
+    plugins: {
+      '@typescript-eslint': typescriptEslint,
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+      'simple-import-sort': simpleImportSort,
+      'unused-imports': unusedImports,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      //...esLintRules,
+      ...simpleImportSortRules,
+      ...typescriptEslintRules,
       ...unusedImportsRules,
     },
   },

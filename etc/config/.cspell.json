@@ -3,5 +3,5 @@
   "ignoreWords": [],
   "language": "en",
   "useGitignore": true,
-  "words": []
+  "words": ["reactron", "vite"]
 }
