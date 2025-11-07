@@ -8,7 +8,7 @@ import { defineConfig, Plugin, ResolvedConfig, SassPreprocessorOptions } from 'v
 export default defineConfig({
   base: './',
   build: {
-    outDir: process.env.BUILD_OUT_DIR, // see moon.yml
+    outDir: 'dist',
   },
   css: {
     preprocessorOptions: {
@@ -21,10 +21,10 @@ export default defineConfig({
   // exclusions are needed because of symbolic links that are needed for running with electron-vite or debugging (see filePathToRendererUrl)
   // we replace vite publicDir copy with a custom plugin
   publicDir: false,
-  plugins: [react(), publicDirCopy()],
+  plugins: [react(), publicDirCopyPlugin()],
 });
 
-function publicDirCopy(): Plugin {
+function publicDirCopyPlugin(): Plugin {
   let resolvedConfig: ResolvedConfig;
   return {
     name: 'public-dir-copy',

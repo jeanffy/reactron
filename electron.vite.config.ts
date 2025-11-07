@@ -1,9 +1,11 @@
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
+import { LoggingFunction, Plugin, RollupLog } from 'rollup';
+import { createFilter, TransformResult } from 'vite';
 
 export default defineConfig({
   main: {
     build: {
-      outDir: 'output/debug/main',
+      outDir: 'output/main',
       rollupOptions: {
         input: 'apps/main/src/main.ts',
         output: {
@@ -18,9 +20,9 @@ export default defineConfig({
   },
   preload: {
     build: {
-      outDir: 'output/debug/preload',
+      outDir: 'output/preload',
       rollupOptions: {
-        input: 'libs/ts/preload/src/preload.ts',
+        input: 'apps/preload/src/preload.ts',
         output: {
           entryFileNames: 'preload.js',
           format: 'cjs',
@@ -33,11 +35,27 @@ export default defineConfig({
   renderer: {
     root: 'apps/renderer',
     build: {
-      outDir: 'output/debug/renderer',
+      outDir: 'output/renderer',
       rollupOptions: {
         input: 'apps/renderer/index.html',
       },
       sourcemap: true,
     },
+    plugins: [removeUseClientPlugin()],
   },
 });
+
+// https://stackoverflow.com/a/78751258
+function removeUseClientPlugin(): Plugin {
+  const filter = createFilter(/.*\.(js|ts|jsx|tsx)$/);
+  return {
+    name: 'remove-use-client',
+    transform(code: string, id: string): TransformResult | undefined {
+      if (!filter(id)) {
+        return undefined;
+      }
+      const newCode = code.replace(/['"]use client['"];\s*/g, '');
+      return { code: newCode, map: null };
+    },
+  };
+}

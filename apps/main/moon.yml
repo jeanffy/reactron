@@ -4,11 +4,7 @@ tasks:
 
   build:
     command: tsc
-    outputs: ['dist/build/']
-
-  bundle:
-    command: vite build
-    outputs: ['dist/bundle/']
+    outputs: ['dist/']
 
   clean:
     command: rm -rf dist && rm -rf node_modules

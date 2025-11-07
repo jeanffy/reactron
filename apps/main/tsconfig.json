@@ -1,7 +1,7 @@
 {
   "extends": "../../etc/config/tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist/build"
+    "outDir": "dist"
   },
   "include": ["src/**/*.ts", "tests/**/*.ts"],
   "files": ["environment.d.ts"]

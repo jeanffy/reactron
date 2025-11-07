@@ -109,6 +109,12 @@ importers:
         specifier: workspace:*
         version: link:../../libs/ts/interop
 
+  apps/preload:
+    dependencies:
+      interop:
+        specifier: workspace:*
+        version: link:../../libs/ts/interop
+
   apps/renderer:
     dependencies:
       '@tanstack/react-query':
@@ -165,12 +171,6 @@ importers:
       lodash:
         specifier: 4.17.21
         version: 4.17.21
-
-  libs/ts/preload:
-    dependencies:
-      interop:
-        specifier: workspace:*
-        version: link:../interop
 
 packages:
 

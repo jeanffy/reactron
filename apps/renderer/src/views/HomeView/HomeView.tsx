@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ReactElement } from 'react';
 
-import MainNavigation from '../../components/MainNavigation';
 import { apiQuery } from '../../helpers/api-query';
 import AppContext from '../../helpers/app-context';
 import MainLayout from '../../layouts/MainLayout';
@@ -18,7 +17,6 @@ export default function HomeView(): ReactElement {
       <h3>Home</h3>
       <p className={css.helloWorld}>Hello World!</p>
       <p>Version {data.appVersion}</p>
-      <MainNavigation />
     </MainLayout>
   );
 }

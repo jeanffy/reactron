@@ -5,15 +5,15 @@ import packageJson from './package.json';
 export default defineConfig({
   build: {
     minify: 'esbuild',
-    outDir: process.env['BUILD_OUT_DIR'], // see moon.yml
+    outDir: 'dist',
     rollupOptions: {
       output: {
-        entryFileNames: 'preload.js',
+        entryFileNames: 'preload.bundle.js',
         format: 'cjs',
       },
     },
     sourcemap: true,
-    ssr: './src/preload.ts',
+    ssr: 'src/preload.ts',
   },
   ssr: {
     noExternal: Object.keys(packageJson.dependencies),

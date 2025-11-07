@@ -4,15 +4,17 @@
     {
       "cwd": "${workspaceRoot}",
       "env": {
-        "REMOTE_DEBUGGING_PORT": "9222"
+        "REMOTE_DEBUGGING_PORT": "9222",
+        "ELECTRON_DISABLE_SECURITY_WARNINGS": "true"
       },
       "name": "Main process",
+      "preLaunchTask": "build",
       "presentation": {
         "hidden": true
       },
       "type": "node",
       "request": "launch",
-      "runtimeArgs": ["--sourcemap"],
+      "runtimeArgs": ["dev", "--sourcemap", "-w", "--entry", "output/main/main.js"],
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron-vite",
       "windows": {
         "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron-vite.cmd"

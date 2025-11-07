@@ -14,7 +14,7 @@ export interface ApiControllerParams {
 export function initializeApiController(app: Electron.App, params: ApiControllerParams): void {
   handleApi(AppApiHandler.GetProgramInfo, params.logPort, async (): Promise<ProgramInfoDto> => {
     return Promise.resolve({
-      appVersion: params.contextPort.appVersion,
+      appVersion: `${params.contextPort.appVersion}b`,
       nodeVersion: process.versions.node,
       chromeVersion: process.versions.chrome,
       electronVersion: process.versions.electron,

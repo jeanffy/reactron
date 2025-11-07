@@ -3,16 +3,8 @@ tasks:
   #   command:
 
   build:
-    env:
-      BUILD_OUT_DIR: dist/build
     command: tsc -b && vite build
-    outputs: ['dist/build/']
-
-  bundle:
-    extends: build
-    env:
-      BUILD_OUT_DIR: dist/bundle
-    outputs: ['dist/bundle/']
+    outputs: ['dist/']
 
   clean:
     command: rm -rf dist && rm -rf node_modules

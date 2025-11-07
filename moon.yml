@@ -2,6 +2,12 @@ tasks:
   install:
     command: pnpm i
 
+  bundle:
+    deps:
+      - core:build
+      - interop:build
+    command: electron-vite build
+
   clean:
     command: moon clean --lifetime '0 days' && rm -rf node_modules && rm -rf output
     options: { cache: false }
@@ -17,17 +23,6 @@ tasks:
       - internalRootTsLintFormatFix
       - internalRootTsLintSyntaxFix
 
-  bundle:
-    deps:
-      - main:build
-      - preload:build
-      - renderer:build
-    script: |
-      mkdir -p output/bundle
-      cp -r apps/main/dist/bundle/* output/bundle
-      cp -r apps/renderer/dist/bundle/* output/bundle
-      cp -r libs/ts/preload/dist/bundle/* output/bundle
-
   start:
     command: cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron --enable-logging .
 
@@ -37,7 +32,7 @@ tasks:
       - interop:build
     options:
       cache: false
-    command: cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-vite dev -w --entry output/debug/main/main.js
+    command: cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-vite dev -w --entry output/main/main.js
 
   # --------------------------------------------------------------------------
   # internal tasks

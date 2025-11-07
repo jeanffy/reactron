@@ -1,7 +1,7 @@
 {
   "name": "reactron",
   "type": "module",
-  "main": "apps/main/dist/build/src/main.js",
+  "main": "apps/main/dist/src/main.js",
   "dependencies": {
     "electron": "39.0.0",
     "electron-log": "5.4.3"
