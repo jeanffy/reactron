@@ -9,8 +9,8 @@ export default defineConfig({
       rollupOptions: {
         input: 'apps/main/src/main.ts',
         output: {
-          entryFileNames: 'main.js',
-          format: 'es',
+          entryFileNames: 'main.cjs',
+          format: 'cjs',
         },
       },
       sourcemap: true,
@@ -24,7 +24,7 @@ export default defineConfig({
       rollupOptions: {
         input: 'apps/preload/src/preload.ts',
         output: {
-          entryFileNames: 'preload.js',
+          entryFileNames: 'preload.cjs',
           format: 'cjs',
         },
       },

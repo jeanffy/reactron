@@ -8,4 +8,7 @@
 - lint application: `moon run lint`
   - auto-fix lint errors: `moon run lint-fix`
 - cleanup: `moon run clean`
-- build application for distribution: `npm run build`
+- build application for distribution:
+  - windows: `npm run build-win`
+  - linux: `npm run build-linux`
+  - macOS: `npm run build-mac`

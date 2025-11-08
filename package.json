@@ -1,9 +1,13 @@
 {
   "name": "reactron",
+  "description": "An Electron app with React",
+  "author": {
+    "name": "jeanffy"
+  },
+  "version": "1.0.0",
+  "main": "output/main/main.cjs",
   "type": "module",
-  "main": "output/main/main.js",
   "dependencies": {
-    "electron": "39.0.0",
     "electron-log": "5.4.3"
   },
   "devDependencies": {
@@ -16,8 +20,11 @@
     "@typescript-eslint/parser": "8.46.2",
     "@vitest/coverage-v8": "2.1.2",
     "@vitest/ui": "2.1.2",
+    "app-builder-lib": "26.0.12",
     "cross-env": "10.1.0",
     "cspell": "8.14.4",
+    "electron": "39.0.0",
+    "electron-builder": "26.0.12",
     "electron-vite": "4.0.1",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "10.1.8",

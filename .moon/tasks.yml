@@ -8,7 +8,6 @@ tasks:
   # common
   # --------------------------------------------------------------------------
 
-  build: { deps: ['^:build'] }
   clean: { deps: ['^:clean'] }
   install: { deps: ['^:install'] }
 

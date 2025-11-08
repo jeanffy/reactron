@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 
 import electron from 'electron';
@@ -81,15 +82,22 @@ export class EnvContextAdapter implements InfraContextPort, DomainContextPort {
     this.rendererIndexHtmlPath = 'index.html';
 
     switch (this.protocol) {
-      case AppProtocol.Http:
-        // when debugging in VSCode or running in dev mode with electron-vite
-        this.preloadJsPath = path.resolve('output/preload/preload.js');
+      case AppProtocol.Http: // when debugging in VSCode or running through electron-vite in dev mode
+        this.preloadJsPath = path.resolve('output/preload/preload.cjs');
         this.rendererUrl = process.env.ELECTRON_RENDERER_URL ?? 'http://localhost';
         break;
-      case AppProtocol.File:
-        // when running directly through electron
-        this.preloadJsPath = path.resolve('apps/preload/dist/preload.bundle.js');
-        this.rendererIndexHtmlPath = path.resolve('apps/renderer/dist/index.html');
+      case AppProtocol.File: // when running through electron-vite in preview mode or directly through electron in production
+        // when running the packaged app, the '__dirname' variable points to the parent directory
+        // of the 'main.cjs' file, that is 'resources/app/output/main'
+        // ok to use sync functions here because we are at application boot
+        this.preloadJsPath = path.resolve('output/preload/preload.cjs');
+        if (!fs.existsSync(this.preloadJsPath)) {
+          this.preloadJsPath = path.join(__dirname, '../preload/preload.cjs');
+        }
+        this.rendererIndexHtmlPath = path.resolve('output/renderer/index.html');
+        if (!fs.existsSync(this.rendererIndexHtmlPath)) {
+          this.rendererIndexHtmlPath = path.join(__dirname, '../renderer/index.html');
+        }
         break;
     }
 

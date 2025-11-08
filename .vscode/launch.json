@@ -14,7 +14,7 @@
       },
       "type": "node",
       "request": "launch",
-      "runtimeArgs": ["dev", "--sourcemap", "-w", "--entry", "output/main/main.js"],
+      "runtimeArgs": ["dev", "--sourcemap", "-w", "--entry", "output/main/main.cjs"],
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron-vite",
       "windows": {
         "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron-vite.cmd"
