@@ -1,5 +1,7 @@
 # Reactron
 
+An Electron app with React
+
 ## Commands
 
 - install dependencies: `moon run install`

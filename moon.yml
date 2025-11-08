@@ -5,7 +5,7 @@ dependsOn:
 
 tasks:
   install:
-    command: pnpm i
+    command: pnpm i && pnpm dedupe
 
   build-win:
     deps: ['^:build']

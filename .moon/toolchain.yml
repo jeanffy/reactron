@@ -2,6 +2,7 @@
 
 unstable_javascript:
   packageManager: pnpm
+  # bug https://github.com/pnpm/pnpm/issues/6321, pnpm dedupe is ran after install
   dedupeOnLockfileChange: false
 
 unstable_node:
