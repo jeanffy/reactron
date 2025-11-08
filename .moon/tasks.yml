@@ -8,13 +8,9 @@ tasks:
   # common
   # --------------------------------------------------------------------------
 
-  build:
-    deps:
-      - ^:build
-
-  start:
-    deps:
-      - build
+  build: { deps: ['^:build'] }
+  clean: { deps: ['^:clean'] }
+  install: { deps: ['^:install'] }
 
   # --------------------------------------------------------------------------
   # specific for Typescript projects
@@ -46,23 +42,7 @@ tasks:
       ROOT_DIR: $workspaceRoot
     command: vitest --coverage
 
-  # --------------------------------------------------------------------------
-  # specific for Go projects
-  # --------------------------------------------------------------------------
-
-  goLint:
-    deps:
-      - internalGoLintFormat
-      - internalGoLintSyntax
-
-  goLintFix:
-    deps:
-      - internalGoLintFormatFix
-      - internalGoLintSyntaxFix
-
-  # --------------------------------------------------------------------------
-  # internal tasks
-  # --------------------------------------------------------------------------
+  # -- internal --
 
   internalTsLintCircular:
     options:
@@ -89,6 +69,22 @@ tasks:
   internalTsLintSyntaxFix:
     extends: internalTsLintSyntax
     args: --fix
+
+  # --------------------------------------------------------------------------
+  # specific for Go projects
+  # --------------------------------------------------------------------------
+
+  goLint:
+    deps:
+      - internalGoLintFormat
+      - internalGoLintSyntax
+
+  goLintFix:
+    deps:
+      - internalGoLintFormatFix
+      - internalGoLintSyntaxFix
+
+  # -- internal --
 
   internalGoLintFormat:
     options:

@@ -3,8 +3,9 @@ tasks:
   #   command:
 
   build:
-    command: tsc
+    inputs: ['**/*']
     outputs: ['dist/']
+    command: tsc
 
   clean:
     command: rm -rf dist && rm -rf node_modules

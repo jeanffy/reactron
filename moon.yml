@@ -1,6 +1,14 @@
+dependsOn:
+  - main
+  - preload
+  - renderer
+
 tasks:
   install:
     command: pnpm i
+
+  build:
+    command: electron-vite build && echo 'electron builder'
 
   clean:
     command: moon clean --lifetime '0 days' && rm -rf node_modules && rm -rf output
@@ -8,31 +16,26 @@ tasks:
 
   lint:
     deps:
+      - ^:lint
       - internalRootTsLintSpell
       - internalRootTsLintFormat
       - internalRootTsLintSyntax
 
   lint-fix:
     deps:
+      - ^:lint-fix
       - internalRootTsLintFormatFix
       - internalRootTsLintSyntaxFix
 
-  package:
-    deps:
-      - core:build
-      - interop:build
-    command: electron-vite build && echo 'electron builder'
+  dev:
+    deps: ['core:build', 'interop:build']
+    command: cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-vite dev -w
+    options: { cache: false }
 
-  start:
-    command: cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron --enable-logging .
-
-  start-dev:
-    deps:
-      - core:build
-      - interop:build
-    options:
-      cache: false
-    command: cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-vite dev -w --entry output/main/main.js
+  preview:
+    deps: ['core:build', 'interop:build']
+    command: cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-vite preview
+    options: { cache: false }
 
   # --------------------------------------------------------------------------
   # internal tasks

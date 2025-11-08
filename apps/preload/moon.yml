@@ -3,8 +3,8 @@ tasks:
   #   command:
 
   build:
-    command: tsc --noEmit && vite build
-    outputs: ['dist/']
+    inputs: ['**/*']
+    command: tsc
 
   clean:
     command: rm -rf dist && rm -rf node_modules

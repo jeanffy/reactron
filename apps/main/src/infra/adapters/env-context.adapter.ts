@@ -82,7 +82,7 @@ export class EnvContextAdapter implements InfraContextPort, DomainContextPort {
 
     switch (this.protocol) {
       case AppProtocol.Http:
-        // when debuging in VSCode or running in dev mode with electron-vite
+        // when debugging in VSCode or running in dev mode with electron-vite
         this.preloadJsPath = path.resolve('output/preload/preload.js');
         this.rendererUrl = process.env.ELECTRON_RENDERER_URL ?? 'http://localhost';
         break;
