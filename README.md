@@ -1,1 +1,11 @@
 # Reactron
+
+## Commands
+
+- install dependencies: `moon run install`
+- run application in dev mode: `moon run dev`
+- run application in prod mode: `moon run preview`
+- lint application: `moon run lint`
+  - auto-fix lint errors: `moon run lint-fix`
+- cleanup: `moon run clean`
+- build application for distribution: `npm run build`
