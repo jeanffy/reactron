@@ -1,5 +1,5 @@
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
-import { LoggingFunction, Plugin, RollupLog } from 'rollup';
+import { Plugin } from 'rollup';
 import { createFilter, TransformResult } from 'vite';
 
 export default defineConfig({
@@ -47,7 +47,7 @@ export default defineConfig({
 
 // https://stackoverflow.com/a/78751258
 function removeUseClientPlugin(): Plugin {
-  const filter = createFilter(/.*\.(js|ts|jsx|tsx)$/);
+  const filter = createFilter(/.*\.(js|ts|cjs|cts|mjs|mts|jsx|tsx)$/);
   return {
     name: 'remove-use-client',
     transform(code: string, id: string): TransformResult | undefined {
